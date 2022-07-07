@@ -10,7 +10,7 @@ Table videogame:
 - **pegi**: tinyint, unsigned, not null
 
 Table platform:
-- **id**: bigint, unsigned, not null, autoincrement, unique, **primary key**
+- **id**: int, unsigned, not null, autoincrement, unique, **primary key**
 - **name**: varchar(50), not null
 
 Pivot table videogame_platform:
@@ -18,20 +18,20 @@ Pivot table videogame_platform:
 - **platform_id**: bigint, unsigned, not null, **foreign key**
 
 Table genre:
-- **id**: bigint, unsigned, not null, autoincrement, unique, **primary key**
+- **id**: int, unsigned, not null, autoincrement, unique, **primary key**
 - **name**: varchar(50), not null
 
 Pivot table genre_videogame:
 - **videogame_id**: bigint, unsigned, not null, **foreign key**
-- **genre_id**: bigint, unsigned, not null, **foreign key**
+- **genre_id**: int, unsigned, not null, **foreign key**
 
 content_descriptor:
-- **id**: bigint, unsigned, not null, autoincrement, unique, **primary key**
+- **id**: int, unsigned, not null, autoincrement, unique, **primary key**
 - **name**: varchar(60), not null
 
 Pivot table videogame_content_descriptor:
 - **videogame_id**: bigint, unsigned, not null, **foreign key**
-- **content_descriptor_id**: bigint, unsigned, not null, **foreign key**
+- **content_descriptor_id**: int, unsigned, not null, **foreign key**
 
 Table award:
 - **id**: bigint, unsigned, not null, autoincrement, unique, **primary key**

@@ -1,5 +1,6 @@
 CREATE TABLE `videogame`(
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
     `plot` TEXT NULL,
     `release_date` DATE NOT NULL,
     `pegi` TINYINT UNSIGNED NOT NULL
@@ -8,7 +9,7 @@ CREATE TABLE `platform`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL
 );
-CREATE TABLE `category`(
+CREATE TABLE `genre`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL
 );
@@ -19,8 +20,9 @@ CREATE TABLE `content_descriptor`(
 CREATE TABLE `tournament`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,
-    `year` SMALLINT NOT NULL,
-    `city` VARCHAR(255) NOT NULL
+    `year` YEAR NOT NULL,
+    `city` VARCHAR(255) NOT NULL,
+    `videogame_id (fk)` BIGINT UNSIGNED NOT NULL
 );
 CREATE TABLE `player`(
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -40,7 +42,8 @@ CREATE TABLE `review`(
 );
 CREATE TABLE `award`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `year` SMALLINT UNSIGNED NOT NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `year` YEAR NOT NULL,
     `category` ENUM('') NOT NULL,
     `videogame_id (fk)` BIGINT UNSIGNED NOT NULL
 );
@@ -48,8 +51,8 @@ CREATE TABLE `platform_videogame`(
     `platform_id (fk)` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `videogame_id (fk)` BIGINT NOT NULL
 );
-CREATE TABLE `category_videogame`(
-    `category_id (fk)` INT UNSIGNED NOT NULL,
+CREATE TABLE `genre_videogame`(
+    `genre_id (fk)` INT UNSIGNED NOT NULL,
     `videogame_id (fk)` BIGINT UNSIGNED NOT NULL
 );
 CREATE TABLE `content_descriptor_videogame`(
@@ -69,6 +72,8 @@ ALTER TABLE
 ALTER TABLE
     `player_tournament` ADD CONSTRAINT `player_tournament_tournament_id (fk)_foreign` FOREIGN KEY(`tournament_id (fk)`) REFERENCES `tournament`(`id`);
 ALTER TABLE
+    `tournament` ADD CONSTRAINT `tournament_videogame_id (fk)_foreign` FOREIGN KEY(`videogame_id (fk)`) REFERENCES `videogame`(`id`);
+ALTER TABLE
     `review` ADD CONSTRAINT `review_player_id (fk)_foreign` FOREIGN KEY(`player_id (fk)`) REFERENCES `player`(`id`);
 ALTER TABLE
     `player_tournament` ADD CONSTRAINT `player_tournament_player_id (fk)_foreign` FOREIGN KEY(`player_id (fk)`) REFERENCES `player`(`id`);
@@ -79,6 +84,6 @@ ALTER TABLE
 ALTER TABLE
     `review` ADD CONSTRAINT `review_videogame_id (fk)_foreign` FOREIGN KEY(`videogame_id (fk)`) REFERENCES `videogame`(`id`);
 ALTER TABLE
-    `category_videogame` ADD CONSTRAINT `category_videogame_category_id (fk)_foreign` FOREIGN KEY(`category_id (fk)`) REFERENCES `category`(`id`);
+    `genre_videogame` ADD CONSTRAINT `genre_videogame_genre_id (fk)_foreign` FOREIGN KEY(`genre_id (fk)`) REFERENCES `genre`(`id`);
 ALTER TABLE
-    `category_videogame` ADD CONSTRAINT `category_videogame_videogame_id (fk)_foreign` FOREIGN KEY(`videogame_id (fk)`) REFERENCES `videogame`(`id`);
+    `genre_videogame` ADD CONSTRAINT `genre_videogame_videogame_id (fk)_foreign` FOREIGN KEY(`videogame_id (fk)`) REFERENCES `videogame`(`id`);
